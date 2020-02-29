@@ -1,0 +1,67 @@
+/*************************************************************************/
+/*Exemplo-1*/
+@function my-function($value)
+{
+    @if $value < 4{
+        @return $value * 100;
+    }
+    @else{
+        @return ($value * 100) + ($value * 10);
+    }
+}
+
+@for $i from 1 through 5{
+    .btn-#{$i}{
+        width: my-function($i);
+    }
+
+}
+/*************************************************************************/
+
+/*************************************************************************/
+/*Exemplo-2*/
+@mixin my-screen($min : 100px, $max: 350px)
+{
+    @media(min-width: $min) and (max-width: $max){
+        @content;
+    }
+}
+
+@mixin my-size($size){
+    width: $size;
+    height: $size;
+}
+
+@include my-screen(320px, 790px)
+{
+    .h{
+        color: red;
+        font-size: 20px;
+        width: 100px;
+        height: 100px;
+    }
+}
+/*************************************************************************/
+
+/*************************************************************************/
+/*Exemplo-3*/
+%btn{
+    padding: 10px 20px;
+    min-width: 120px;
+}
+
+.btn-generic{
+    background-color: gray;
+    @extend  %btn;
+}
+
+.btn-confirm{
+    background-color: green;
+    @extend  %btn;
+}
+
+.btn-cancel{
+    background-color: red;
+    @extend  %btn;
+}
+/*************************************************************************/

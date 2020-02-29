@@ -1,0 +1,167 @@
+@import "_my-exemples";
+
+#my-div{
+    color: red;
+    &:hover{ //o & é utilizado para representar uma classe dentro de outra. Por exemplo, em CSS, essa classe seria '#my-div.hover:'.
+        color: green;
+    }
+}
+
+
+//Criando variáveis e usando em classes
+$my-var: 5px; //não pertence a nenhum seletor
+$my-var4: pink;
+
+.my-class{
+    $my-var2: blue; //variável local
+    top: $my-var2;
+
+    $my-var3: blue !global; //variável transformada em global
+    $my-var4: blue !default; //se já tiver um valor, ignora essa ação
+
+    top:$my-var;
+}
+
+
+//Funções
+.a{
+    color: mix(red, blue); //o resultado será roxo (purple)
+    color: darken(red, 100%); //o resultado será preto
+    width: percentage(5); //transforma em porcentagem
+}
+
+
+//List e Maps
+$my-list: 35px 15px 80% 41rem; //lista de valores separados por espaço
+$colors: (
+    demo: red,
+    paid: green
+); //criando um map
+
+.b{
+    margin:$my-list;
+    top: nth($my-list, 1); //o array começa de 1, então nesse caso iria trazer 35px
+    color: map-get($colors, paid);
+}
+
+
+//Interpolação
+    //usado quando se deseja mudar no nome de classes, propriedades e etc através de uma variável
+$my-num: 35;
+
+.c#{$my-num}{ //nesse caso, o nome seria 'd35'.
+    color:red;
+}
+
+
+//Controle de fluxo
+$my-bool: true;
+
+@if $my-bool == true{
+    .d{
+        color: green;
+    }
+} 
+@else{
+    .d{
+        color: blueviolet;
+    }
+}
+
+
+//Laços de repetição
+@for $i from 1 through 3{
+    .class-#{$i}{
+        color: red;
+    }
+}
+
+$my-colors: "red", "green", "blue";
+
+@each $color in $my-colors{//percorre cada item de uma lista
+    .btn-{
+        background-color: $color;
+    }
+}
+
+$j : 0;
+
+@while $j < 5{
+    .e-#{$j}{
+        padding: 50px;
+    }
+
+    $j: $j + 1;
+}
+
+
+//Criando funções
+@function double($value){
+    @return $value * 2;
+}
+
+.f{
+    width: double(20px);
+}
+
+
+//Mixin
+@mixin error-box($border-width : 10px){
+    color: red;
+    background-color: black;
+    border:  $border-width solid red;
+}
+
+@mixin padding-mixin($values...){
+    padding: $values;
+}
+
+@mixin links{
+    text-decoration: node;
+    color: crimson;
+    @content;
+}
+
+.my-box{
+    font-size: 18px;
+    padding: 10px;
+    @include error-box(50px);
+    @include padding-mixin(60px, 5px);
+
+    g{
+        @include links{
+            cursor: pointer;
+            &:hover{
+                color: red;
+            }
+        }
+    }
+}
+
+
+//Extend
+.i{
+    min-width: 150px;
+    padding: 10px 20px;
+}
+
+.j{
+    background-color: green;
+    color: white;
+    @extend .i;
+}
+
+
+//Placeholders
+%k{//úteis quando os valores são sempre fixos
+    min-width: 150px;
+    padding: 10px 20px;
+}
+
+.l{
+    background-color: red;
+    color: white;
+    @extend %k;
+}
+
+
